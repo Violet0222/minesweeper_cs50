@@ -239,7 +239,7 @@ class MinesweeperAI():
         possible_moves = []
         for i in range(self.height):
             for j in range(self.width):
-                if (i,j) not in self.moves_made and (i,j) not in self.mines:
+                if (i,j) not in self.moves_made and (i,j) not in self.mines and (i,j) not in self.known_mines:
                     possible_moves.append((i,j))
         
         if possible_moves:
