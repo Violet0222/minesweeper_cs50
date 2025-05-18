@@ -113,7 +113,7 @@ class Sentence():
         """
         Returns the set of all cells in self.cells known to be safe.
         """
-        if self.cells == 0:
+        if self.count == 0:
             return set(self.cells)
         return set()
 
@@ -239,7 +239,7 @@ class MinesweeperAI():
         possible_moves = []
         for i in range(self.height):
             for j in range(self.width):
-                if (i,j) not in self.moves_made and (i,j) not in self.mines and (i,j) not in self.known_mines:
+                if (i,j) not in self.moves_made and (i,j) not in self.mines:
                     possible_moves.append((i,j))
         
         if possible_moves:
