@@ -219,9 +219,13 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
-        for cell in self.safes:
-            if cell not in self.moves_made:
-                return cell
+        save_cells = []
+        for i in range(self.height):
+            for j in range(self.width):
+                if (i,j) in self.safes and (i,j) not in self.moves_made:
+                    save_cells.append((i,j))
+        if save_cells:
+            return random.choice(save_cells)
         return None     
         
 
@@ -236,7 +240,7 @@ class MinesweeperAI():
         for i in range(self.height):
             for j in range(self.width):
                 if (i,j) not in self.moves_made and (i,j) not in self.mines:
-                    return possible_moves.append((i,j))
+                    possible_moves.append((i,j))
         
         if possible_moves:
             return random.choice(possible_moves)
