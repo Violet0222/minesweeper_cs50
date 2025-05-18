@@ -198,7 +198,7 @@ class MinesweeperAI():
             for j in range(cell[1] - 1, cell[1] + 2):
                 if (i,j) == cell:
                     continue
-                if i < 0 or j < 0 or i > self.height or j > self.width:
+                if i < 0 or j < 0 or i >= self.height or j >= self.width:
                     continue
                 if (i, j) in self.safes:
                     continue
