@@ -194,17 +194,17 @@ class MinesweeperAI():
         
         neighbors = set()
         
-        for i in range(cell[0] - 1,cell[0] + 2):
+        for i in range(cell[0] - 1, cell[0] + 2):
             for j in range(cell[1] - 1, cell[1] + 2):
-                if (i,j) == cell:
+                if (i, j) == cell:
                     continue
                 if i >= 0 and j >= 0 and i < self.height and j < self.width:
                     if (i, j) in self.safes:
                         continue
                     if (i, j) in self.mines:
-                        count -=1
+                        count -= 1
                     else:
-                        neighbors.add((i,j))
+                        neighbors.add((i, j))
                             
         new_sentence = Sentence(neighbors, count)
         if new_sentence not in self.knowledge and len(new_sentence.cells) > 0:
@@ -259,13 +259,12 @@ class MinesweeperAI():
         save_cells = []
         for i in range(self.height):
             for j in range(self.width):
-                if (i,j) in self.safes and (i,j) not in self.moves_made:
-                    save_cells.append((i,j))
+                if (i, j) in self.safes and (i, j) not in self.moves_made:
+                    save_cells.append((i, j))
         if save_cells:
             return random.choice(save_cells)
         return None     
         
-
     def make_random_move(self):
         """
         Returns a move to make on the Minesweeper board.
@@ -276,11 +275,9 @@ class MinesweeperAI():
         possible_moves = []
         for i in range(self.height):
             for j in range(self.width):
-                if (i,j) not in self.moves_made and (i,j) not in self.mines:
-                    possible_moves.append((i,j))
+                if (i, j) not in self.moves_made and (i, j) not in self.mines:
+                    possible_moves.append((i, j))
         
         if possible_moves:
             return random.choice(possible_moves)
-        return None
-                
-            
+        return None       
