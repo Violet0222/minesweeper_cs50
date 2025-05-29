@@ -198,17 +198,54 @@ class MinesweeperAI():
             for j in range(cell[1] - 1, cell[1] + 2):
                 if (i,j) == cell:
                     continue
-                if i < 0 or j < 0 or i >= self.height or j >= self.width:
-                    continue
-                if (i, j) in self.safes:
-                    continue
-                if (i, j) in self.mines:
-                    count -=1
-                else:
-                    neighbors.add((i,j))
+                if i >= 0 and j >= 0 and i < self.height and j < self.width:
+                    if (i, j) in self.safes:
+                        continue
+                    if (i, j) in self.mines:
+                        count -=1
+                    else:
+                        neighbors.add((i,j))
                             
-        self.knowledge.append(Sentence(neighbors, count))
+        new_sentence = Sentence(neighbors, count)
+        if new_sentence not in self.knowledge and len(new_sentence.cells) > 0:
+            self.knowledge.append(new_sentence)
         
+        changed = True
+        while changed:
+            changed = False
+            
+            safes = set()
+            mines = set()
+            
+            for sentence in self.knowledge:
+                safes |= sentence.known_safes()
+                mines |= sentence.known_mines()
+                
+            for s in safes:
+                if s not in self.safes:
+                    self.mark_safe(s)
+                    changed = True
+                    
+            for m in mines:
+                if m not in self.mines:
+                    self.mark_mine(m)
+                changed = True
+        
+            new_sentences = []
+            for s1 in self.knowledge:
+                for s2 in self.knowledge:
+                    if s1 == s2:
+                        continue
+                    if s1.cells < s2.cells:
+                        diff = s2.cells - s1.cells
+                        diff_count = s2.count - s1.count
+                        
+                        new = Sentence(diff, diff_count)
+                        if new not in self.knowledge and new not in new_sentences:
+                            new_sentences.append(new)
+                            changed = True
+            
+            self.knowledge.extend(new_sentences)               
 
     def make_safe_move(self):
         """
